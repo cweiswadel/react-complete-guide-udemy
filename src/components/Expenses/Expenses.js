@@ -1,7 +1,9 @@
+import React from 'react';
 import ExpenseItem from "./ExpenseItem";
+import Card from "../UI/Card";
 import "./Expenses.css";
 
-function Expenses(props) {
+const Expenses = (props) =>  {
 	let expenseItemArr = []; //init empty array for storing ExpenseItem components
 
 	//props.expensesData is the array in App.js which will pass all key value pairs for rendering the ExpenseItem(s)
@@ -16,7 +18,7 @@ function Expenses(props) {
 		);
 		expenseItemArr.push(ExpenseItemComp);
 	}
-	return <div className="expenses">{expenseItemArr}</div>; //return the array of ExpenseItem(s) in order to render them all as the output comp Expenses
+	return <Card className="expenses">{expenseItemArr}</Card>; //return the array of ExpenseItem(s) in order to render them all as the output comp Expenses
 }
 
 export default Expenses;
