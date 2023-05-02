@@ -11,6 +11,7 @@
 
 import React from 'react';
 import Expenses from "./components/Expenses/Expenses";
+import NewExpense from './components/NewExpense/NewExpense';
 
 //const App = () => {
   //<Component content within the curly braces
@@ -64,6 +65,7 @@ const App = () => {
 
 	return (
 		<div>
+			<NewExpense/>
 			<Expenses expensesData={expenses} />
 		</div>
 	);
