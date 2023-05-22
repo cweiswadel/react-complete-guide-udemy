@@ -9,7 +9,7 @@
 // import ExpenseItem from "./components/ExpenseItem"; //importing a new component from the ./src/components folder
 //lower case elements are built in HTML, uppercase are developer built react components!!!
 
-import React from 'react';
+import React, {useState} from 'react';
 import Expenses from "./components/Expenses/Expenses";
 import NewExpense from './components/NewExpense/NewExpense';
 
@@ -23,35 +23,45 @@ import NewExpense from './components/NewExpense/NewExpense';
   // This is the function syntax for React components 
 //}
 
+const DUMMY_EXPENSES = [
+	{
+		id: "e1",
+		title: "Toilet Paper",
+		amount: 94.12,
+		date: new Date(2020, 7, 14),
+	},
+	{
+		id: "e2",
+		title: "New TV",
+		amount: 799.49,
+		date: new Date(2021, 2, 12),
+	},
+	{
+		id: "e3",
+		title: "Car Insurance",
+		amount: 294.67,
+		date: new Date(2021, 2, 28),
+	},
+	{
+		id: "e4",
+		title: "New Desk (Wooden)",
+		amount: 450,
+		date: new Date(2021, 5, 12),
+	},
+];
 
 const App = () => {
-	const expenses = [
-		{
-			id: "e1",
-			title: "Toilet Paper",
-			amount: 94.12,
-			date: new Date(2020, 7, 14),
-		},
-		{
-			id: "e2",
-			title: "New TV",
-			amount: 799.49,
-			date: new Date(2021, 2, 12),
-		},
-		{
-			id: "e3",
-			title: "Car Insurance",
-			amount: 294.67,
-			date: new Date(2021, 2, 28),
-		},
-		{
-			id: "e4",
-			title: "New Desk (Wooden)",
-			amount: 450,
-			date: new Date(2021, 5, 12),
-		},
-	];
+	const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
 
+	const addExpenseHandler = (expense) => {
+		// console.log('In App.js');
+		console.log(expense); //console logging the expense item that is being added to the list 
+		setExpenses( prevExpenses => {
+			return [expense,...prevExpenses]
+		}); //adding the new expense as the first item in the array that the state is holding to render the expenses
+		//^using a function format the ensure the most recent/up-to-date snapshot of the state is pulled before being updated 
+	}
+	
 	/* 
   return React.createElement(
     'div',
@@ -63,9 +73,11 @@ const App = () => {
   //  ^^past way to create React elements using import React from 'react';
   // JSX is using this at the end after some React methods being run to convert it for the browser/web
 
+
+  //lifting the state: the parent App component has access to both the Expenses and the NewExpense component which means the children component can share (they cannot share directly)
 	return (
 		<div>
-			<NewExpense/>
+			<NewExpense onAddExpense={addExpenseHandler}/>
 			<Expenses expensesData={expenses} />
 		</div>
 	);

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./ExpenseForm.css";
 
 // want users to select a title, pick a date, and input a value
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
 	const [enteredTitle, setEnteredTitle] = useState(''); // setting the initial state
 	//^ defines the initial state enteredTitle as '' and defines a function setEnteredTitle('<new value>') to change the state
 	// this is detaching the value/variable away from the component to prevent losing the value during the re-rendering of the component
@@ -20,7 +20,7 @@ const ExpenseForm = () => {
 	const titleChangeHandler = (event) => {
 		// console.log('Title changed!'); //will log this value on every keystroke within the title input
 		// console.log(event);//default JS will return an object when you setup a change listener, which we can use to track the input from the user
-		console.log("titleChangeHandler: " + event.target.value); //event.target.value will hold the value of the input at the time at which the event was fired (so in this case, when it changed, or as a keystroke occurred)
+		// console.log("titleChangeHandler: " + event.target.value); //event.target.value will hold the value of the input at the time at which the event was fired (so in this case, when it changed, or as a keystroke occurred)
 		setEnteredTitle(event.target.value); // using the setState to change the title from the initial '' state to whatever the user's input is (upon the change event firing)
 		//^ this is using the single state per input
 		// setUserInput({
@@ -40,7 +40,7 @@ const ExpenseForm = () => {
 	};
 
 	const amountChangeHandler = (event) => {
-		console.log("amountChangeHandler: " + event.target.value);
+		// console.log("amountChangeHandler: " + event.target.value);
 		setEnteredAmount(event.target.value); //single state version
 
 		// setUserInput({
@@ -57,7 +57,7 @@ const ExpenseForm = () => {
 	};
 
 	const dateChangeHandler = (event) => {
-		console.log("dateChangeHandler: " + event.target.value);
+		// console.log("dateChangeHandler: " + event.target.value);
 		setEnteredDate(event.target.value);
 
 		// setUserInput({
@@ -82,7 +82,15 @@ const ExpenseForm = () => {
             date: new Date(enteredDate), // converting it to a date object
         }
 
-        console.log(expenseData); //console logging the expenseData object when the form is submitted
+        // console.log(expenseData); //console logging the expenseData object when the form is submitted
+        props.onSaveExpenseData(expenseData); // executing the prop of onSaveExpenseData which in the NewExpense component we defined as onSaveExpenseData={saveExpenseDataHandler}
+        //^ which when we pass in our expenseData object we are then sending this data from the child component ExpenseForm to NewExpense
+        setEnteredTitle('');
+        setEnteredAmount('');
+        setEnteredDate('');
+        //^setting all the states to an empty string on submit of the form (to clear the value), but it still creating the expenseData object with what the user input
+        //this is TWO WAY BINDING because we are creating the object of the users input but also resetting the form for another use
+
     };
 
     //form HTML elements emit an event when the form is submitted (or any button with type submit is clicked)
@@ -92,7 +100,7 @@ const ExpenseForm = () => {
 			<div className="new-expense__controls">
 				<div className="new-expense__control">
 					<label>Title</label>
-					<input type="text" onChange={titleChangeHandler} />
+					<input type="text" value={enteredTitle} onChange={titleChangeHandler} />
 				</div>
 				<div className="new-expense__control">
 					<label>Amount</label>
@@ -100,6 +108,7 @@ const ExpenseForm = () => {
 						type="number"
 						min="0.01"
 						step="0.01"
+                        value={enteredAmount}
 						onChange={amountChangeHandler}
 					/>
 				</div>
@@ -109,6 +118,7 @@ const ExpenseForm = () => {
 						type="date"
 						min="2023-05-01"
 						max="2026-12-31"
+                        value={enteredDate}
 						onChange={dateChangeHandler}
 					/>
 				</div>
