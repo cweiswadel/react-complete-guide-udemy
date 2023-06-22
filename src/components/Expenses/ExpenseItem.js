@@ -22,29 +22,30 @@ const ExpenseItem = (props) => {
 	// But we can use array destructuring to store each value in the array as individual variables (consts in this case)
 	// convention is to use const [value, setValue] to have the base value, then the function to update the value
 
-//   console.log("ExpenseItem evaluated by React"); // states are instances which are specific to the component in which they located in
+	//   console.log("ExpenseItem evaluated by React"); // states are instances which are specific to the component in which they located in
 
-  //!!!useState is needed to change the values of components dynamically!!!
+	//!!!useState is needed to change the values of components dynamically!!!
 
 	//best practice is to have Handler be the ending of your functions that are triggered by eventListeners
 	// const clickHandler = () => {
-    // setTitle('Updated!'); //calling the setTitle function here with the parameter of what we want it to change to
-    //   // calling this setState() based function will cause the component to be called/rendered again, thus allowing dynamic change of the component via changing the state
+	// setTitle('Updated!'); //calling the setTitle function here with the parameter of what we want it to change to
+	//   // calling this setState() based function will cause the component to be called/rendered again, thus allowing dynamic change of the component via changing the state
 	// 	console.log(title);
 	// };
 	//^ button for demo purposes
 
-
 	//stateless / presentation components have no state, or are only there to present data/info to the user
 	// aka as 'dumb' components
 	return (
-		<Card className="expense-item">
-			<ExpenseDate date={props.date} />
-			<div className="expense-item__description">
-				<h2>{props.title}</h2>
-				<div className="expense-item__price">${props.amount}</div>
-			</div>
-		</Card>
+		<li>
+			<Card className="expense-item">
+				<ExpenseDate date={props.date} />
+				<div className="expense-item__description">
+					<h2>{props.title}</h2>
+					<div className="expense-item__price">${props.amount}</div>
+				</div>
+			</Card>
+		</li>
 	);
 };
 

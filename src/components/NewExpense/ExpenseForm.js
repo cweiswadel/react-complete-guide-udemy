@@ -3,12 +3,12 @@ import "./ExpenseForm.css";
 
 // want users to select a title, pick a date, and input a value
 const ExpenseForm = (props) => {
-	const [enteredTitle, setEnteredTitle] = useState(''); // setting the initial state
+	const [enteredTitle, setEnteredTitle] = useState(""); // setting the initial state
 	//^ defines the initial state enteredTitle as '' and defines a function setEnteredTitle('<new value>') to change the state
 	// this is detaching the value/variable away from the component to prevent losing the value during the re-rendering of the component
 
-	const [enteredAmount, setEnteredAmount] = useState(''); //setting the states and update state function for amount
-	const [enteredDate, setEnteredDate] = useState(''); //setting the states and update state function for date
+	const [enteredAmount, setEnteredAmount] = useState(""); //setting the states and update state function for amount
+	const [enteredDate, setEnteredDate] = useState(""); //setting the states and update state function for date
 	// //^these three states are acceptable and usable for a component, but it is possible to condense them into one state
 
 	// const [userInput, setUserInput] = useState({
@@ -73,34 +73,61 @@ const ExpenseForm = (props) => {
 		// });
 	};
 
-    const submitHandler = (event) => {
-        event.preventDefault(); //this will prevent reloading the page / sending a request to the server
+	const submitHandler = (event) => {
+		event.preventDefault(); //this will prevent reloading the page / sending a request to the server
 
-        const expenseData = {
-            title: enteredTitle,
-            amount: enteredAmount,
-            date: new Date(enteredDate), // converting it to a date object
-        }
+		const expenseData = {
+			title: enteredTitle,
+			amount: enteredAmount,
+			date: new Date(enteredDate), // converting it to a date object
+		};
 
-        // console.log(expenseData); //console logging the expenseData object when the form is submitted
-        props.onSaveExpenseData(expenseData); // executing the prop of onSaveExpenseData which in the NewExpense component we defined as onSaveExpenseData={saveExpenseDataHandler}
-        //^ which when we pass in our expenseData object we are then sending this data from the child component ExpenseForm to NewExpense
-        setEnteredTitle('');
-        setEnteredAmount('');
-        setEnteredDate('');
-        //^setting all the states to an empty string on submit of the form (to clear the value), but it still creating the expenseData object with what the user input
-        //this is TWO WAY BINDING because we are creating the object of the users input but also resetting the form for another use
+		// console.log(expenseData); //console logging the expenseData object when the form is submitted
+		props.onSaveExpenseData(expenseData); // executing the prop of onSaveExpenseData which in the NewExpense component we defined as onSaveExpenseData={saveExpenseDataHandler}
+		//^ which when we pass in our expenseData object we are then sending this data from the child component ExpenseForm to NewExpense
+		setEnteredTitle("");
+		setEnteredAmount("");
+		setEnteredDate("");
+		//^setting all the states to an empty string on submit of the form (to clear the value), but it still creating the expenseData object with what the user input
+		//this is TWO WAY BINDING because we are creating the object of the users input but also resetting the form for another use
+	};
 
-    };
+	const [addNewExpenseMode, setAddNewExpenseMode] = useState("false");
 
-    //form HTML elements emit an event when the form is submitted (or any button with type submit is clicked)
-    //when you submit this form then the page reloads because the browser sends a request to the host server (this is default behavior)
+	const addNewExpenseHandler = (event) => {
+		event.preventDefault();
+		setAddNewExpenseMode("true");
+		// console.log("Add new expense button pressed");
+		// console.log(addNewExpenseMode);
+	}
+
+	const cancelAddNewExpenseHandler = (event) => {
+		event.preventDefault();
+		setAddNewExpenseMode("false");
+	}
+
+	if (addNewExpenseMode === "false") {
+		return (
+			<form onSubmit={addNewExpenseHandler}>
+				<div className="add-new-expense__actions">
+					<button type="submit">Add New Expense</button>
+				</div>
+			</form>
+		);
+	}
+
+	//form HTML elements emit an event when the form is submitted (or any button with type submit is clicked)
+	//when you submit this form then the page reloads because the browser sends a request to the host server (this is default behavior)
 	return (
 		<form onSubmit={submitHandler}>
 			<div className="new-expense__controls">
 				<div className="new-expense__control">
 					<label>Title</label>
-					<input type="text" value={enteredTitle} onChange={titleChangeHandler} />
+					<input
+						type="text"
+						value={enteredTitle}
+						onChange={titleChangeHandler}
+					/>
 				</div>
 				<div className="new-expense__control">
 					<label>Amount</label>
@@ -108,7 +135,7 @@ const ExpenseForm = (props) => {
 						type="number"
 						min="0.01"
 						step="0.01"
-                        value={enteredAmount}
+						value={enteredAmount}
 						onChange={amountChangeHandler}
 					/>
 				</div>
@@ -118,12 +145,13 @@ const ExpenseForm = (props) => {
 						type="date"
 						min="2023-05-01"
 						max="2026-12-31"
-                        value={enteredDate}
+						value={enteredDate}
 						onChange={dateChangeHandler}
 					/>
 				</div>
 			</div>
 			<div className="new-expense__actions">
+				<button onClick={cancelAddNewExpenseHandler} type="reset">Cancel</button>
 				<button type="submit">Add Expense</button>
 			</div>
 		</form>

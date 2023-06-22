@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import ExpenseItem from "./ExpenseItem";
+// import ExpenseItem from "./ExpenseItem";
 import ExpensesFilter from "./ExpensesFilter";
 import Card from "../UI/Card";
 import "./Expenses.css";
+import ExpensesList from "./ExpensesList";
 
 const Expenses = (props) => {
 	const [yearFilter, setYearFilter] = useState("2020");
@@ -31,18 +32,7 @@ const Expenses = (props) => {
 		return expense.date.getFullYear().toString() === yearFilter;
 	});
 
-	let expensesContent = <p> No expenses found.</p>; // JSX can be stored in variables
-	if (filteredExpenses.length > 0) {
-		expensesContent = filteredExpenses.map((expense) => (
-			<ExpenseItem
-				key={expense.id}
-				title={expense.title}
-				amount={expense.amount}
-				date={expense.date}
-				year={expense.date.getFullYear()}
-			/>
-		));
-	}
+
 
 	return (
 		<div>
@@ -51,7 +41,7 @@ const Expenses = (props) => {
 					selectedFilter={yearFilter}
 					onChangeFilter={filterChangeHandler}
 				/>
-			{expensesContent}
+			< ExpensesList items={filteredExpenses} />
 			</Card>
 		</div>
 	); //return the array of ExpenseItem(s) in order to render them all as the output comp Expenses
