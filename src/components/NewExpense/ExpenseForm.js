@@ -78,7 +78,7 @@ const ExpenseForm = (props) => {
 
 		const expenseData = {
 			title: enteredTitle,
-			amount: enteredAmount,
+			amount: +enteredAmount,
 			date: new Date(enteredDate), // converting it to a date object
 		};
 
@@ -90,31 +90,13 @@ const ExpenseForm = (props) => {
 		setEnteredDate("");
 		//^setting all the states to an empty string on submit of the form (to clear the value), but it still creating the expenseData object with what the user input
 		//this is TWO WAY BINDING because we are creating the object of the users input but also resetting the form for another use
+		//resetting the Expense form to just display the Add New Expense button
 	};
 
-	const [addNewExpenseMode, setAddNewExpenseMode] = useState("false");
-
-	const addNewExpenseHandler = (event) => {
-		event.preventDefault();
-		setAddNewExpenseMode("true");
-		// console.log("Add new expense button pressed");
-		// console.log(addNewExpenseMode);
-	}
-
-	const cancelAddNewExpenseHandler = (event) => {
-		event.preventDefault();
-		setAddNewExpenseMode("false");
-	}
-
-	if (addNewExpenseMode === "false") {
-		return (
-			<form onSubmit={addNewExpenseHandler}>
-				<div className="add-new-expense__actions">
-					<button type="submit">Add New Expense</button>
-				</div>
-			</form>
-		);
-	}
+	// const cancelAddNewExpenseHandler = (event) => {
+	// 	event.preventDefault();
+	// 	setAddNewExpenseMode(false);
+	// };
 
 	//form HTML elements emit an event when the form is submitted (or any button with type submit is clicked)
 	//when you submit this form then the page reloads because the browser sends a request to the host server (this is default behavior)
@@ -151,7 +133,7 @@ const ExpenseForm = (props) => {
 				</div>
 			</div>
 			<div className="new-expense__actions">
-				<button onClick={cancelAddNewExpenseHandler} type="reset">Cancel</button>
+				<button type="button" onClick={props.onCancel}>Cancel</button>
 				<button type="submit">Add Expense</button>
 			</div>
 		</form>

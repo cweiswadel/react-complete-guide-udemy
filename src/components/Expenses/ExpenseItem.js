@@ -19,7 +19,7 @@ const ExpenseItem = (props) => {
 	// const [title, setTitle] = useState(props.title); //useState() is a React hook that can ONLY be called within React components and non-nested components
 	// !!! useState() needs a default value/variable !!! <-- you have to set the initial state !! (which can be done to se the state as the props from an underlying component)
 	//useState() returns a function that is able to be used to return a new variable (as an array)
-	// But we can use array destructuring to store each value in the array as individual variables (consts in this case)
+	// But we can use array destructuring to store each value in the array as individual variables (const in this case)
 	// convention is to use const [value, setValue] to have the base value, then the function to update the value
 
 	//   console.log("ExpenseItem evaluated by React"); // states are instances which are specific to the component in which they located in
